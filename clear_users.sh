@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-USER_LIST="$(curl -sk -X GET -u "${USERNAME}":"${PASSWORD}" "https://${UCP_FQDN}/enzi/v0/accounts" | jq -r '.accounts | .[] | select(.isOrg==false) | .name')"
+USER_LIST="$(curl -sk -X GET -u "${USERNAME}":"${PASSWORD}" "https://${UCP_FQDN}/enzi/v0/accounts/?filter=all&limit=10000000000" | jq -r '.accounts | .[] | select(.isOrg==false) | .name')"
 
 echo "The following users will be removed:"
 echo "${USER_LIST}" | grep -v admin
@@ -19,9 +19,6 @@ for i in ${USER_LIST}
 do
   if [ "${i}" != "admin" ]
   then
-    echo "Removing DTR user namespace for ${i}"
-    curl -k -X DELETE --header "Accept: application/json" -u "${USERNAME}":"${PASSWORD}" "https://${DTR_FQDN}/api/v0/accounts/${i}" || true
-
     echo "Removing UCP user ${i}"
     curl -k -X DELETE --header "Accept: application/json" -u "${USERNAME}":"${PASSWORD}" "https://${UCP_FQDN}/enzi/v0/accounts/${i}" || true
   fi
