@@ -2,9 +2,9 @@
 
 set -e
 
-if [ -z "${UCP_FQDN}" ] || [ -z "${DTR_FQDN}" ] || [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]
+if [ -z "${UCP_FQDN}" ] || [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]
 then
-  echo "Error: missing one of the following environment variables: UCP_FQDN, DTR_FQDN, USERNAME, PASSWORD"
+  echo "Error: missing one of the following environment variables: UCP_FQDN, USERNAME, PASSWORD"
   exit 1
 fi
 
